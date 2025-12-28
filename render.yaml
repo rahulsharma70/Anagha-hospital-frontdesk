@@ -1,0 +1,43 @@
+services:
+  # Web Application Service
+  - type: web
+    name: hospital-web-app
+    env: python
+    plan: starter  # or free for development
+    buildCommand: cd "hospital project" && pip install -r requirements.txt
+    startCommand: cd "hospital project" && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: WEB_PORT
+        value: 3000
+    
+  # Mobile API Service
+  - type: web
+    name: hospital-mobile-api
+    env: python
+    plan: starter
+    buildCommand: cd "mobile project" && pip install -r requirements.txt
+    startCommand: cd "mobile project" && uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: SERVER_PORT
+        value: 8000
+

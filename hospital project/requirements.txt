@@ -16,7 +16,8 @@ qrcode[pil]==7.4.2
 pillow==10.1.0
 selenium==4.15.2
 webdriver-manager==4.0.1
-apscheduler==3.10.4
+apscheduler>=3.10.4
+sentry-sdk[fastapi]>=1.40.0
 requests==2.31.0
 razorpay==1.4.1
 # Note: sqlalchemy and psycopg2-binary kept for backward compatibility but not actively used

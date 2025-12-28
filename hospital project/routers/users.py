@@ -86,15 +86,37 @@ def register_user(user: UserCreate):
         )
 
 @router.post("/login", response_model=dict)
-def login_user(user_credentials: UserLogin):
+def login_user(user_credentials: UserLogin, request: Request):
     """Login user and return access token - using Supabase"""
     user = authenticate_user(user_credentials.mobile, user_credentials.password)
+    
+    # Get client IP and user agent for audit logging
+    client_ip = request.client.host if request.client else None
+    user_agent = request.headers.get("user-agent")
+    
     if not user:
+        # Log failed login attempt
+        log_login_attempt(
+            mobile=user_credentials.mobile,
+            success=False,
+            ip_address=client_ip,
+            user_agent=user_agent,
+            error_message="Incorrect mobile number or password"
+        )
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect mobile number or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    # Log successful login attempt
+    log_login_attempt(
+        mobile=user_credentials.mobile,
+        user_id=user["id"],
+        success=True,
+        ip_address=client_ip,
+        user_agent=user_agent
+    )
     
     supabase = get_supabase()
     if supabase:

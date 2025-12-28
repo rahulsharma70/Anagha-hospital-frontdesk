@@ -1,0 +1,70 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies (Web)
+        run: |
+          cd "hospital project"
+          pip install -r requirements.txt
+      
+      - name: Install dependencies (Mobile)
+        run: |
+          cd "mobile project"
+          pip install -r requirements.txt
+      
+      - name: Run tests (if any)
+        run: |
+          echo "Add your tests here"
+          # cd "hospital project"
+          # pytest tests/
+
+  deploy-web:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_WEB_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+      
+      - name: Notify deployment
+        run: |
+          echo "✅ Web service deployed successfully"
+
+  deploy-mobile-api:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy Mobile API to Render
+        uses: johnbeynon/render-deploy@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_MOBILE_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+      
+      - name: Notify deployment
+        run: |
+          echo "✅ Mobile API service deployed successfully"
+
