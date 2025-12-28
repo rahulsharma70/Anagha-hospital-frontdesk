@@ -1,0 +1,57 @@
+{
+  "plans": [
+    {
+      "name": "Starter",
+      "price": "999",
+      "period": "month",
+      "description": "Perfect for small clinics",
+      "features": [
+        "Up to 5 doctors",
+        "Unlimited appointments",
+        "Basic scheduling",
+        "Email support",
+        "Mobile app access"
+      ],
+      "popular": false
+    },
+    {
+      "name": "Professional",
+      "price": "2499",
+      "period": "month",
+      "description": "Ideal for growing practices",
+      "features": [
+        "Up to 20 doctors",
+        "Unlimited appointments",
+        "Advanced scheduling",
+        "Operation management",
+        "Priority support",
+        "Custom branding",
+        "Analytics dashboard"
+      ],
+      "popular": true
+    },
+    {
+      "name": "Enterprise",
+      "price": "4999",
+      "period": "month",
+      "description": "For large hospitals",
+      "features": [
+        "Unlimited doctors",
+        "Unlimited appointments",
+        "Full operation management",
+        "Multi-location support",
+        "24/7 priority support",
+        "Custom integrations",
+        "Advanced analytics",
+        "Dedicated account manager"
+      ],
+      "popular": false
+    }
+  ],
+  "annual_discount": 20,
+  "currency": "INR",
+  "currency_symbol": "₹"
+}
+
+
+

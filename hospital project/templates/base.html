@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hospital Booking System{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🏥 Hospital Booking System</div>
+            <ul class="nav-links">
+                {% if user %}
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    {% if user.role == "doctor" %}
+                        <li><a href="/doctor-dashboard">Doctor Panel</a></li>
+                        <li><a href="/admin/pricing">Manage Pricing</a></li>
+                    {% endif %}
+                    <li><a href="/book-appointment">Book Appointment</a></li>
+                    <li><a href="/book-operation">Book Operation</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                {% else %}
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/register-hospital">Register Hospital</a></li>
+                    <li><a href="/hospital-payment-setup">Secure Payment Link</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hospital Booking System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/login';
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

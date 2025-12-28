@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Hospital Booking System{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin-top: 4rem;">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title text-center">Login</h2>
+        </div>
+        
+        <div id="alert-container"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="mobile">Mobile Number</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" required 
+                       placeholder="Enter your mobile number">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required 
+                       placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="color: var(--text-light);">
+                Don't have an account? <a href="/register" style="color: var(--primary-color);">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const mobile = document.getElementById('mobile').value;
+    const password = document.getElementById('password').value;
+    const alertContainer = document.getElementById('alert-container');
+    
+    try {
+        const response = await fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mobile, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            localStorage.setItem('authToken', data.access_token);
+            // Redirect based on role
+            if (data.user.role === 'doctor') {
+                window.location.href = '/doctor-dashboard';
+            } else {
+                window.location.href = '/dashboard';
+            }
+        } else {
+            alertContainer.innerHTML = `<div class="alert alert-error">${data.detail || 'Login failed'}</div>`;
+        }
+    } catch (error) {
+        alertContainer.innerHTML = `<div class="alert alert-error">${error.message}</div>`;
+    }
+});
+</script>
+{% endblock %}
+
