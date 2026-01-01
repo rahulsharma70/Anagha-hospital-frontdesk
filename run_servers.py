@@ -161,23 +161,23 @@ def wait_for_server(url, name, timeout=30):
 
 def run_mobile_server():
     """Run mobile server on port 8000"""
-    mobile_dir = Path(__file__).parent / "mobile project"
-    server_file = mobile_dir / "server.py"
+    backend_dir = Path(__file__).parent / "backend"
+    server_file = backend_dir / "server_mobile.py"
     
     if not server_file.exists():
         print_error(f"Mobile server file not found: {server_file}")
         return None
     
     print_info(f"Starting Mobile Server (Port 8000)...")
-    print_info(f"Directory: {mobile_dir}")
+    print_info(f"Directory: {backend_dir}")
     
-    # Change to mobile directory and run server
+    # Change to backend directory and run server
     env = os.environ.copy()
-    env['PYTHONPATH'] = str(mobile_dir)
+    env['PYTHONPATH'] = str(backend_dir)
     
     process = subprocess.Popen(
-        [sys.executable, "server.py"],
-        cwd=str(mobile_dir),
+        [sys.executable, "server_mobile.py"],
+        cwd=str(backend_dir),
         env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -189,23 +189,23 @@ def run_mobile_server():
 
 def run_web_server():
     """Run web server on port 3000"""
-    web_dir = Path(__file__).parent / "hospital project"
-    server_file = web_dir / "main.py"
+    backend_dir = Path(__file__).parent / "backend"
+    server_file = backend_dir / "server_web.py"
     
     if not server_file.exists():
         print_error(f"Web server file not found: {server_file}")
         return None
     
     print_info(f"Starting Web Server (Port 3000)...")
-    print_info(f"Directory: {web_dir}")
+    print_info(f"Directory: {backend_dir}")
     
-    # Change to web directory and run server
+    # Change to backend directory and run server
     env = os.environ.copy()
-    env['PYTHONPATH'] = str(web_dir)
+    env['PYTHONPATH'] = str(backend_dir)
     
     process = subprocess.Popen(
-        [sys.executable, "main.py"],
-        cwd=str(web_dir),
+        [sys.executable, "server_web.py"],
+        cwd=str(backend_dir),
         env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
