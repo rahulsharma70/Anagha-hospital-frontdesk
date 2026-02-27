@@ -43,7 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user?.role == 'doctor') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const DoctorDashboardScreen()),
+          MaterialPageRoute(
+              builder: (context) => const DoctorDashboardScreen()),
         );
       } else if (user?.role == 'patient' || user?.role == 'pharma') {
         Navigator.pushReplacement(
@@ -136,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                        _obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
@@ -158,27 +161,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 30),
                 Consumer<AuthService>(
                   builder: (context, authService, child) {
-                    return SizedBox(
+                    return Container(
                       width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: authService.isLoading ? null : _login,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      height: 56,
+                      decoration: BoxDecoration(
+                        gradient: AppColors.gradientCta,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: AppColors.shadowSoft,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: authService.isLoading ? null : _login,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Center(
+                            child: authService.isLoading
+                                ? const SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white, strokeWidth: 2.5),
+                                  )
+                                : const Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
                           ),
                         ),
-                        child: authService.isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
-                            : const Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
                       ),
                     );
                   },
@@ -188,7 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()),
                     );
                   },
                   child: const Text(
@@ -204,4 +219,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

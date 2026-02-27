@@ -40,9 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
               // Header Section
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(
+                    top: 40, left: 20, right: 20, bottom: 40),
                 decoration: const BoxDecoration(
-                  color: AppColors.primaryColor,
+                  gradient: AppColors.gradientHero,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
@@ -55,33 +56,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 80,
                       color: Colors.white,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
                     const Text(
-                      'Anagha Hospital Solutions',
+                      'Anagha Health Connect',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    const Text(
-                      'Book Appointments & Operations Easily',
-                      style: TextStyle(
-                        fontSize: 14,
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'Book Appointments & Operations Easily',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Connected to: $serverUrl',
+                      style: const TextStyle(
+                        fontSize: 10,
                         color: Colors.white70,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                        'Connected to: $serverUrl',
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.white54,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                   ],
                 ),
               ),
@@ -164,7 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           icon: Icons.calendar_today,
                           title: 'Book Appointments',
-                          description: 'Schedule your doctor appointments easily',
+                          description:
+                              'Schedule your doctor appointments easily',
                           color: AppColors.primaryColor,
                         ),
                         const SizedBox(height: 20),
@@ -172,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           icon: Icons.medical_services,
                           title: 'Book Operations',
-                          description: 'Schedule operations for different specialties',
+                          description:
+                              'Schedule operations for different specialties',
                           color: AppColors.secondaryColor,
                         ),
                       ] else if (_selectedRole == 'pharma') ...[
@@ -180,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           icon: Icons.medication,
                           title: 'Book Pharma Appointment',
-                          description: 'Book appointment with doctor (Pharma Professionals only)',
+                          description:
+                              'Book appointment with doctor (Pharma Professionals only)',
                           color: Colors.purple,
                         ),
                       ],
@@ -203,7 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -230,11 +245,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()),
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: AppColors.primaryColor, width: 2),
+                          side: const BorderSide(
+                              color: AppColors.primaryColor, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -257,11 +274,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const HospitalRegisterScreen()),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const HospitalRegisterScreen()),
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: AppColors.secondaryColor, width: 2),
+                          side: const BorderSide(
+                              color: AppColors.secondaryColor, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -296,46 +316,53 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.bgWhite,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderColor),
+        boxShadow: AppColors.shadowSoft,
       ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(15),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: color, size: 32),
                 ),
-                child: Icon(icon, color: color, size: 30),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
+                const SizedBox(height: 16),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                    letterSpacing: -0.3,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textLight,
+                const SizedBox(height: 8),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textLight,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -360,57 +387,66 @@ class _HomeScreenState extends State<HomeScreen> {
       // Check if user is logged in as pharma professional
       final authService = Provider.of<AuthService>(context, listen: false);
       if (authService.isAuthenticated && authService.user?.role == 'pharma') {
-        targetScreen = const BookPharmaAppointmentScreen(); // Only for pharma professionals
+        targetScreen =
+            const BookPharmaAppointmentScreen(); // Only for pharma professionals
       } else {
         // Show login screen if not logged in
-        return Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+        return Container(
+          decoration: BoxDecoration(
+            color: AppColors.bgWhite,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.borderColor),
+            boxShadow: AppColors.shadowSoft,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(24),
             child: Column(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 64,
+                  height: 64,
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, color: color, size: 30),
+                  child: Icon(icon, color: color, size: 32),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 16),
                 Text(
                   title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textDark,
+                    letterSpacing: -0.3,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 const Text(
                   'Please login as Pharma Professional to book appointments',
                   style: TextStyle(
                     fontSize: 14,
                     color: AppColors.textLight,
+                    height: 1.4,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: color,
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color,
+                    ),
+                    child: const Text('Login'),
                   ),
-                  child: const Text('Login'),
                 ),
               ],
             ),
@@ -418,70 +454,84 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     }
-    
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: AppColors.bgWhite,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderColor),
+        boxShadow: AppColors.shadowSoft,
       ),
-      child: InkWell(
-        onTap: targetScreen != null
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => targetScreen!),
-                );
-              }
-            : null,
-        borderRadius: BorderRadius.circular(15),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: targetScreen != null
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => targetScreen!),
+                  );
+                }
+              : null,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: color, size: 30),
                 ),
-                child: Icon(icon, color: color, size: 30),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textDark,
+                          letterSpacing: -0.3,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textLight,
+                      const SizedBox(height: 6),
+                      Text(
+                        description,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textLight,
+                          height: 1.4,
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                if (targetScreen != null)
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.bgLight,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                  ],
-                ),
-              ),
-              if (targetScreen != null)
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: AppColors.textLight,
-                ),
-            ],
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-

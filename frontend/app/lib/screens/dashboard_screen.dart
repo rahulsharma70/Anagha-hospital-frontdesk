@@ -40,7 +40,8 @@ class DashboardScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.local_hospital, size: 50, color: Colors.white),
+                  const Icon(Icons.local_hospital,
+                      size: 50, color: Colors.white),
                   const SizedBox(height: 10),
                   Text(
                     user?.name ?? 'User',
@@ -71,7 +72,8 @@ class DashboardScreen extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyAppointmentsScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const MyAppointmentsScreen()),
                 );
               },
             ),
@@ -83,7 +85,8 @@ class DashboardScreen extends StatelessWidget {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyOperationsScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const MyOperationsScreen()),
                   );
                 },
               ),
@@ -95,18 +98,21 @@ class DashboardScreen extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()),
                 );
               },
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout, color: AppColors.errorColor),
-              title: const Text('Logout', style: TextStyle(color: AppColors.errorColor)),
+              title: const Text('Logout',
+                  style: TextStyle(color: AppColors.errorColor)),
               onTap: () async {
                 await authService.logout();
                 if (context.mounted) {
-                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (route) => false);
                 }
               },
             ),
@@ -148,7 +154,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BookAppointmentScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BookAppointmentScreen()),
                         );
                       },
                     ),
@@ -163,7 +171,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BookOperationScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BookOperationScreen()),
                         );
                       },
                     ),
@@ -182,7 +192,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyAppointmentsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const MyAppointmentsScreen()),
                         );
                       },
                     ),
@@ -197,7 +209,8 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyOperationsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const MyOperationsScreen()),
                         );
                       },
                     ),
@@ -217,7 +230,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BookPharmaAppointmentScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BookPharmaAppointmentScreen()),
                         );
                       },
                     ),
@@ -232,7 +247,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyAppointmentsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const MyAppointmentsScreen()),
                         );
                       },
                     ),
@@ -252,7 +269,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BookAppointmentScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BookAppointmentScreen()),
                         );
                       },
                     ),
@@ -267,7 +286,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BookOperationScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const BookOperationScreen()),
                         );
                       },
                     ),
@@ -286,7 +307,9 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyAppointmentsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const MyAppointmentsScreen()),
                         );
                       },
                     ),
@@ -301,7 +324,8 @@ class DashboardScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MyOperationsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const MyOperationsScreen()),
                         );
                       },
                     ),
@@ -310,9 +334,15 @@ class DashboardScreen extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 30),
-            Card(
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.bgWhite,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppColors.borderColor),
+                boxShadow: AppColors.shadowSoft,
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -321,13 +351,17 @@ class DashboardScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.textDark,
+                        letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(height: 15),
-                    _buildInfoRow(Icons.local_hospital, 'Hospital', user?.hospitalId != null ? 'Selected' : 'Not Selected'),
-                    const SizedBox(height: 10),
-                    _buildInfoRow(Icons.person, 'Role', user?.role?.toUpperCase() ?? ''),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 16),
+                    _buildInfoRow(Icons.local_hospital, 'Hospital',
+                        user?.hospitalId != null ? 'Selected' : 'Not Selected'),
+                    const SizedBox(height: 12),
+                    _buildInfoRow(
+                        Icons.person, 'Role', user?.role?.toUpperCase() ?? ''),
+                    const SizedBox(height: 12),
                     _buildInfoRow(Icons.phone, 'Mobile', user?.mobile ?? ''),
                   ],
                 ),
@@ -346,36 +380,45 @@ class DashboardScreen extends StatelessWidget {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 3,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.bgWhite,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderColor),
+        boxShadow: AppColors.shadowSoft,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: color, size: 30),
                 ),
-                child: Icon(icon, color: color, size: 30),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: color,
+                const SizedBox(height: 15),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                    letterSpacing: -0.3,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -402,6 +445,3 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
-
-

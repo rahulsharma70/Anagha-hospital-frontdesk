@@ -5,6 +5,7 @@ Uses the gateway abstraction layer so all logic works with both Razorpay and Cas
 
 import logging
 from typing import Dict, Any, Optional
+from datetime import datetime
 
 from fastapi import HTTPException
 from core.database import get_supabase
@@ -100,8 +101,10 @@ class PaymentService:
         supabase = cls._get_db()
         gateway = get_payment_gateway()
 
-        receipt = f"HOSP_REG_{plan_name}"
-        notes = {"type": "hospital_registration", "plan": plan_name}
+        import re
+        clean_plan = re.sub(r'[^A-Za-z0-9_-]', '', plan_name)
+        receipt = f"HOSP_REG_{clean_plan}_{int(datetime.now().timestamp())}"
+        notes = {"type": "hospital_registration", "plan": clean_plan}
 
         order = gateway.create_order(
             amount=amount,
@@ -120,6 +123,7 @@ class PaymentService:
             "payment_method": gateway.name,
             "status": "PENDING",
             "razorpay_order_id": order["order_id"],
+            "metadata": {"type": "hospital_registration", "plan": plan_name},
         }
 
         result = supabase.table("payments").insert(payment_record).execute()

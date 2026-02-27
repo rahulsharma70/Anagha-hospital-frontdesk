@@ -29,33 +29,85 @@ class AnaghaHospitalApp extends StatelessWidget {
         title: 'Anagha Health Connect',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
           primaryColor: AppColors.primaryColor,
+          scaffoldBackgroundColor: AppColors.bgLight,
           colorScheme: ColorScheme.fromSeed(
             seedColor: AppColors.primaryColor,
             primary: AppColors.primaryColor,
-            secondary: AppColors.secondaryColor,
+            secondary: AppColors
+                .accentColor, // Mapping secondary semantic to accent color in web
+            error: AppColors.errorColor,
+            background: AppColors.bgLight,
+            surface: AppColors.bgWhite,
           ),
-          textTheme: GoogleFonts.poppinsTextTheme(),
+          textTheme: GoogleFonts.plusJakartaSansTextTheme().apply(
+            bodyColor: AppColors.textDark,
+            displayColor: AppColors.textDark,
+          ),
           useMaterial3: true,
-          appBarTheme: AppBarTheme(
-            backgroundColor: AppColors.primaryColor,
-            foregroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors
+                .transparent, // Making explicit use of custom hero components easier
             elevation: 0,
             centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.white),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: AppColors.primaryColor,
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(12), // Matching web radius 0.75rem
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            ),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: AppColors.primaryColor, width: 2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            ),
           ),
           cardTheme: CardThemeData(
-            elevation: 2,
+            elevation: 0,
+            color: AppColors.bgWhite,
+            margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: AppColors.borderColor, width: 1),
             ),
           ),
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.borderColor),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppColors.borderColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide:
+                  const BorderSide(color: AppColors.primaryColor, width: 2),
             ),
             filled: true,
-            fillColor: Colors.grey[50],
+            fillColor: AppColors.bgWhite,
+            contentPadding: const EdgeInsets.all(16),
           ),
         ),
         home: const SplashScreen(),
@@ -70,6 +122,3 @@ class AnaghaHospitalApp extends StatelessWidget {
     );
   }
 }
-
-
-

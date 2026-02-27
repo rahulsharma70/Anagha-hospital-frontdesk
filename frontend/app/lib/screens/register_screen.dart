@@ -28,14 +28,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _addressLine1Controller = TextEditingController();
   final _addressLine2Controller = TextEditingController();
   final _addressLine3Controller = TextEditingController();
-  
+
   // Role-specific controllers
   final _companyNameController = TextEditingController();
   final _product1Controller = TextEditingController();
   final _product2Controller = TextEditingController();
   final _product3Controller = TextEditingController();
   final _product4Controller = TextEditingController();
-  
+
   // Old doctor fields (keeping for backward compatibility)
   final _degreeController = TextEditingController();
   final _instituteController = TextEditingController();
@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _experience2Controller = TextEditingController();
   final _experience3Controller = TextEditingController();
   final _experience4Controller = TextEditingController();
-  
+
   // New doctor fields
   final _doctorNameController = TextEditingController();
   final _placeController = TextEditingController();
@@ -99,8 +99,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     List<Hospital> localApproved = [];
     try {
       localApproved = await HospitalStorageService.getApprovedHospitals();
-      print('Loaded ${localApproved.length} approved hospitals from local storage');
-      
+      print(
+          'Loaded ${localApproved.length} approved hospitals from local storage');
+
       // Set local hospitals first
       setState(() {
         _hospitals = localApproved;
@@ -108,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } catch (e) {
       print('Error loading from local storage: $e');
     }
-    
+
     // Then try to load from API and merge
     try {
       final response = await ApiService.get('/api/hospitals/approved');
@@ -117,30 +118,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
           final responseText = response.body;
           if (responseText.isNotEmpty) {
             final List<dynamic> data = jsonDecode(responseText);
-            final apiApproved = data.map((json) => Hospital.fromJson(json)).toList();
+            final apiApproved =
+                data.map((json) => Hospital.fromJson(json)).toList();
             print('Loaded ${apiApproved.length} approved hospitals from API');
-            
+
             // Merge API and local storage (API takes precedence, but add local ones not in API)
             final mergedHospitals = <Hospital>[];
             final allIds = <int>{};
-            
+
             // Add API hospitals first
             for (var hospital in apiApproved) {
               mergedHospitals.add(hospital);
               allIds.add(hospital.id);
             }
-            
+
             // Add local hospitals that aren't in API
             for (var hospital in localApproved) {
               if (!allIds.contains(hospital.id)) {
                 mergedHospitals.add(hospital);
               }
             }
-            
+
             setState(() {
               _hospitals = mergedHospitals;
             });
-            
+
             print('Total approved hospitals available: ${_hospitals.length}');
           }
         } catch (parseError) {
@@ -155,11 +157,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Error loading hospitals from API: $e');
       // Keep local storage data already loaded
     }
-    
+
     // Log final count
     print('Final approved hospitals count: ${_hospitals.length}');
     if (_hospitals.isEmpty) {
-      print('⚠️ No approved hospitals found! Make sure hospitals are approved first.');
+      print(
+          '⚠️ No approved hospitals found! Make sure hospitals are approved first.');
     }
   }
 
@@ -214,7 +217,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_selectedRole == 'doctor') {
       userData['doctor_name'] = _doctorNameController.text.trim();
       userData['place'] = _placeController.text.trim();
-      userData['patient_referred_name'] = _patientReferredNameController.text.trim();
+      userData['patient_referred_name'] =
+          _patientReferredNameController.text.trim();
       userData['problem'] = _problemController.text.trim();
       userData['patient_mobile'] = _patientMobileController.text.trim();
       userData['ref_no'] = _refNoController.text.trim();
@@ -246,7 +250,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       } else if (mounted) {
         Fluttertoast.showToast(
-          msg: 'Registration failed. Please check your connection and try again.',
+          msg:
+              'Registration failed. Please check your connection and try again.',
           backgroundColor: AppColors.errorColor,
         );
       }
@@ -286,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                
+
                 // Role Selection
                 DropdownButtonFormField<String>(
                   value: _selectedRole,
@@ -296,7 +301,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   items: const [
                     DropdownMenuItem(value: 'patient', child: Text('Patient')),
-                    DropdownMenuItem(value: 'pharma', child: Text('Pharma Professional')),
+                    DropdownMenuItem(
+                        value: 'pharma', child: Text('Pharma Professional')),
                     DropdownMenuItem(value: 'doctor', child: Text('Doctor')),
                   ],
                   onChanged: (value) {
@@ -326,7 +332,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ? [
                                       const DropdownMenuItem<int>(
                                         value: null,
-                                        child: Text('No approved hospitals available'),
+                                        child: Text(
+                                            'No approved hospitals available'),
                                         enabled: false,
                                       )
                                     ]
@@ -344,7 +351,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       });
                                     },
                               validator: (value) {
-                                if (_selectedRole == 'pharma' && value == null) {
+                                if (_selectedRole == 'pharma' &&
+                                    value == null) {
                                   return 'Please select a hospital';
                                 }
                                 return null;
@@ -365,14 +373,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const HospitalRegisterScreen()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HospitalRegisterScreen()),
                               );
                             },
                             child: RichText(
                               text: TextSpan(
-                                style: const TextStyle(fontSize: 12, color: AppColors.textLight),
+                                style: const TextStyle(
+                                    fontSize: 12, color: AppColors.textLight),
                                 children: [
-                                  const TextSpan(text: 'No approved hospitals. '),
+                                  const TextSpan(
+                                      text: 'No approved hospitals. '),
                                   TextSpan(
                                     text: 'Register a new hospital here.',
                                     style: TextStyle(
@@ -402,7 +414,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const HospitalRegisterScreen()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HospitalRegisterScreen()),
                                   );
                                 },
                                 child: Text(
@@ -420,8 +434,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                     ],
                   ),
-                if (_selectedRole == 'pharma')
-                  const SizedBox(height: 20),
+                if (_selectedRole == 'pharma') const SizedBox(height: 20),
 
                 // Basic Fields
                 TextFormField(
@@ -464,7 +477,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                        _obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
@@ -492,7 +507,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                        _obscureConfirmPassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                       onPressed: () {
                         setState(() {
@@ -648,27 +665,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
 
                 const SizedBox(height: 30),
-                SizedBox(
+                Container(
                   width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _register,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.gradientCta,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: AppColors.shadowSoft,
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _isLoading ? null : _register,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Center(
+                        child: _isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                    color: Colors.white, strokeWidth: 2.5),
+                              )
+                            : const Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
                       ),
                     ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -689,4 +717,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
